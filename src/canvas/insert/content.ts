@@ -105,7 +105,7 @@ export default class Content {
     public getCursor(e: MouseEvent, cursorType?: string): string {
         let result: string = 'crosshair'; // 判断鼠标位置结果 默认即crosshair
         for (const i of this.property.circles) {
-            if (inCircle(i.x, i.y, e.clientX, e.clientY)) {
+            if (inCircle(i.x, i.y, e.pageX, e.pageY)) {
                 // 在这个范围内 对应的手势图标
                 //result = `${i.cssPosition}-resize`;
                 if (cursorType === 'eve') {
@@ -117,7 +117,7 @@ export default class Content {
         }
         if (result === 'crosshair') {
             // 如果还是十字 如果在边上 则可以拖动
-            if (this.inBoxBorder(e.clientX, e.clientY)) {
+            if (this.inBoxBorder(e.pageX, e.pageY)) {
                 result = 'all-scroll';
             }
         }

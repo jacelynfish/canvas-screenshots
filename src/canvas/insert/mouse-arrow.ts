@@ -33,8 +33,8 @@ export default class {
             case 'nw-resize':
                 this.box.setPosition(
                     {
-                        startX: e.clientX,
-                        startY: e.clientY,
+                        startX: e.pageX,
+                        startY: e.pageY,
                     },
                     true,
                 );
@@ -42,8 +42,8 @@ export default class {
             case 'se-resize':
                 this.box.setPosition(
                     {
-                        endX: e.clientX,
-                        endY: e.clientY,
+                        endX: e.pageX,
+                        endY: e.pageY,
                     },
                     true,
                 );

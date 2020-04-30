@@ -54,6 +54,7 @@ export default class Screen {
     private blurListener: EventListener;
     private cursorChangeListener: EventListener;
 
+    private bodyScale: { width: number; height: number };
     private cursorStyle: string;
     private clickTime: number; // 点击次数 只在出现box之后计算 用于判断是否确定
 
@@ -70,8 +71,9 @@ export default class Screen {
             'image',
             'back',
         ];
-        // this.config = {...conf, ...plugin};
-        this.config = { ...conf };
+        const fullSize: boolean = typeof conf.fullSize === 'boolean' ?
+                            conf.fullSize : !conf.backgroundData;
+        this.config = { ...conf, fullSize };
         this.body = conf.body || document.body;
         setConfig({
             rate: window.devicePixelRatio,
@@ -79,6 +81,7 @@ export default class Screen {
             debuggerMode: conf.debuggerMode || false,
             outputType: conf.outputType || 'imageData',
             customerDefined: conf.customerDefined || [],
+            fullSize,
         });
         hookInstall();
         setDebuggerData();
@@ -102,11 +105,24 @@ export default class Screen {
         this.transMask.style.userSelect = 'none';
     }
 
-    private initBackGround(fn: Function): void {
-        const width: number = this.body.clientWidth;
-        const height: number = this.body.clientHeight;
+    private updateBodyScale(): void {
+        if (this.config.fullSize) {
+            this.bodyScale = {
+                width: this.body.scrollWidth,
+                height: this.body.scrollHeight,
+            };
+        } else {
+            this.bodyScale = {
+                width: this.body.clientWidth,
+                height: this.body.clientHeight,
+            };
+        }
+    }
 
-        this.mask.style.position = 'fixed';
+    private initBackGround(fn: Function): void {
+        const { width, height } = this.bodyScale;
+
+        this.mask.style.position = 'absolute';
         this.mask.style.top = '0';
         this.mask.style.left = '0';
         this.mask.style.cursor = this.cursorStyle;
@@ -124,7 +140,7 @@ export default class Screen {
             log('finished', 1);
             this.transMask = canvas;
             this.transMaskCtx = canvas.getContext('2d');
-            this.transMask.style.position = 'fixed';
+            this.transMask.style.position = 'absolute';
             this.transMask.style.top = '0';
             this.transMask.style.left = '0';
             this.transMask.style.width = iwidth || `${width}px`;
@@ -156,8 +172,8 @@ export default class Screen {
                     this.config.backgroundData,
                     0,
                     0,
-                    this.body.clientWidth * config.rate,
-                    this.body.clientHeight * config.rate,
+                    this.bodyScale.width * config.rate,
+                    this.bodyScale.height * config.rate,
                     0,
                     0,
                 );
@@ -175,8 +191,8 @@ export default class Screen {
     }
 
     private reset(): void {
-        const width: number = this.body.clientWidth * config.rate;
-        const height: number = this.body.clientHeight * config.rate;
+        const width: number = this.bodyScale.width * config.rate;
+        const height: number = this.bodyScale.height * config.rate;
         this.mask.width = width;
         this.mask.height = height;
 
@@ -186,8 +202,8 @@ export default class Screen {
 
     private resize(): void {
         // TODO 防抖
-        const width: number = this.body.clientWidth * config.rate;
-        const height: number = this.body.clientHeight * config.rate;
+        const width: number = this.bodyScale.width * config.rate;
+        const height: number = this.bodyScale.height * config.rate;
 
         // this.reset();
 
@@ -316,10 +332,15 @@ export default class Screen {
 
     private beginBox(e: MouseEvent): void {
         this.box.initBox();
-        this.box.setPosition({
-            startX: e.clientX,
-            startY: e.clientY,
-        });
+        let startX: number = e.clientX;
+        let startY: number = e.clientY;
+
+        if (this.config.fullSize) {
+            const { top, left } = this.body.getBoundingClientRect();
+            startX -= left;
+            startY -= top;
+        }
+        this.box.setPosition({ startX, startY });
         this.beginMove = true;
     }
 
@@ -328,10 +349,14 @@ export default class Screen {
             return;
         }
 
-        this.box.setPosition({
-            endX: e.clientX,
-            endY: e.clientY,
-        });
+        let endX: number = e.clientX;
+        let endY: number = e.clientY;
+        if (this.config.fullSize) {
+            const { top, left } = this.body.getBoundingClientRect();
+            endX -= left;
+            endY -= top;
+        }
+        this.box.setPosition({ endX, endY });
 
         this.globaldraw();
     }
@@ -410,6 +435,7 @@ export default class Screen {
         this.cursorStyle = 'crosshair';
         this.clickTime = 0;
         this.mask.id = 'screenshots-mask';
+        this.updateBodyScale();
         this.initBackGround(() => {
             this.functionBox = functionBox(this.body);
             this.box = new box(

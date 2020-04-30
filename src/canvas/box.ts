@@ -130,25 +130,28 @@ export default class Box {
     }
 
     public inBox(positionX: number, positionY: number): boolean {
+        const x: number = positionX + window.scrollX;
+        const y: number = positionY + window.scrollY;
+
         const inX: Function = (): boolean => {
             if (this.rect.startX < this.rect.endX) {
                 return (
-                    positionX >= this.rect.startX && positionX <= this.rect.endX
+                    x >= this.rect.startX && x <= this.rect.endX
                 );
             } else {
                 return (
-                    positionX <= this.rect.startX && positionX >= this.rect.endX
+                    x <= this.rect.startX && x >= this.rect.endX
                 );
             }
         };
         const inY: Function = (): boolean => {
             if (this.rect.startY < this.rect.endY) {
                 return (
-                    positionY >= this.rect.startY && positionY <= this.rect.endY
+                    y >= this.rect.startY && y <= this.rect.endY
                 );
             } else {
                 return (
-                    positionY <= this.rect.startY && positionY >= this.rect.endY
+                    y <= this.rect.startY && y >= this.rect.endY
                 );
             }
         };
@@ -310,7 +313,7 @@ export default class Box {
         let focusItem: Content;
         if (this.inBox(e.clientX, e.clientY)) {
             for (const i of this.content) {
-                if (i.inBoxBorder(e.clientX, e.clientY)) {
+                if (i.inBoxBorder(e.pageX, e.pageY)) {
                     focusItem = i;
                     if (
                         focusItem instanceof Rectangular ||
@@ -357,7 +360,7 @@ export default class Box {
         let cursor: string = 'crosshair';
         if (this.inBox(e.clientX, e.clientY)) {
             for (const i of this.content) {
-                if (i.inBoxBorder(e.clientX, e.clientY)) {
+                if (i.inBoxBorder(e.pageX, e.pageY)) {
                     cursor = i.getCursor(e);
                 }
             }
@@ -383,8 +386,8 @@ export default class Box {
             }
             const setPosition: Function = (hasBlur: boolean = false): void => {
                 position = {
-                    startX: e.clientX,
-                    startY: e.clientY,
+                    startX: e.pageX,
+                    startY: e.pageY,
                 };
                 if (!hasBlur) {
                     if (this.currentFun === 'text') {
@@ -452,8 +455,8 @@ export default class Box {
                     if (position.startX !== -1) {
                         newItem.setPosition(
                             {
-                                endX: e.clientX,
-                                endY: e.clientY,
+                                endX: e.pageX,
+                                endY: e.pageY,
                             },
                             true,
                         );
@@ -465,8 +468,8 @@ export default class Box {
                     if (position.startX !== -1) {
                         newItem.addPosition(
                             {
-                                x: e.clientX,
-                                y: e.clientY,
+                                x: e.pageX,
+                                y: e.pageY,
                             },
                             true,
                         );
@@ -488,8 +491,8 @@ export default class Box {
                         {
                             startX: position.startX,
                             startY: position.startY,
-                            endX: e.clientX,
-                            endY: e.clientY,
+                            endX: e.pageX,
+                            endY: e.pageY,
                         },
                         true,
                     );

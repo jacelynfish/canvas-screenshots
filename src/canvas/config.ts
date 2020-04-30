@@ -17,10 +17,12 @@ interface IConfig {
     customerDefined?: CustomerDefined[];
     debuggerMode?: boolean;
     outputType?: Type;
+    fullSize?: Boolean;
 }
 
 export const config: IConfig = {
     uid: 0,
+    fullSize: false,
 };
 
 export const inBox: Function = (e: MouseEvent): boolean => {
@@ -28,11 +30,11 @@ export const inBox: Function = (e: MouseEvent): boolean => {
         return false;
     }
     if (
-        (e.clientX - config.boxRect.startX) *
-            (e.clientX - config.boxRect.endX) <=
+        (e.pageX - config.boxRect.startX) *
+            (e.pageX - config.boxRect.endX) <=
             0 &&
-        (e.clientY - config.boxRect.startY) *
-            (e.clientY - config.boxRect.endY) <=
+        (e.pageY - config.boxRect.startY) *
+            (e.pageY - config.boxRect.endY) <=
             0
     ) {
         return true;

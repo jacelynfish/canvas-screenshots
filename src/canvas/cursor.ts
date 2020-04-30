@@ -35,7 +35,7 @@ export default class {
     public getCursor(e: MouseEvent, itype?: string): string {
         let result: string = 'crosshair'; // 判断鼠标位置结果 默认即crosshair
         for (const i of this.box.circles) {
-            if (inCircle(i.x, i.y, e.clientX, e.clientY)) {
+            if (inCircle(i.x, i.y, e.pageX, e.pageY)) {
                 // 在这个范围内 对应的手势图标
                 if (itype === 'eve') {
                     result = `${i.cssPositionEve}-resize`;

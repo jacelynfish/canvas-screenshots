@@ -40,44 +40,44 @@ export default class {
             case 'nw-resize':
                 this.box.setSize(
                     {
-                        x: e.clientX,
-                        y: e.clientY,
+                        x: e.pageX,
+                        y: e.pageY,
                     },
                     {
                         width:
                             this.box.property.position.x +
                             this.box.property.width -
-                            e.clientX,
+                            e.pageX,
                         height:
                             this.box.property.position.y +
                             this.box.property.height -
-                            e.clientY,
+                            e.pageY,
                     },
                 );
                 break;
             case 'w-resize':
                 this.box.setSize(
                     {
-                        x: e.clientX,
+                        x: e.pageX,
                         y: this.box.property.position.y,
                     },
                     {
                         width:
                             this.box.property.position.x +
                             this.box.property.width -
-                            e.clientX,
+                            e.pageX,
                     },
                 );
                 break;
             case 'sw-resize':
                 this.box.setSize(
                     {
-                        x: e.clientX,
+                        x: e.pageX,
                         y: this.box.property.position.y,
                     },
                     {
-                        width: endX - e.clientX,
-                        height: e.clientY - startY,
+                        width: endX - e.pageX,
+                        height: e.pageY - startY,
                     },
                 );
                 break;
@@ -88,7 +88,7 @@ export default class {
                         y: this.box.property.position.y,
                     },
                     {
-                        height: e.clientY - this.box.property.position.y,
+                        height: e.pageY - this.box.property.position.y,
                     },
                 );
                 break;
@@ -99,8 +99,8 @@ export default class {
                         y: startY,
                     },
                     {
-                        width: e.clientX - startX,
-                        height: e.clientY - startY,
+                        width: e.pageX - startX,
+                        height: e.pageY - startY,
                     },
                 );
                 break;
@@ -111,7 +111,7 @@ export default class {
                         y: startY,
                     },
                     {
-                        width: e.clientX - startX,
+                        width: e.pageX - startX,
                     },
                 );
                 break;
@@ -119,11 +119,11 @@ export default class {
                 this.box.setSize(
                     {
                         x: startX,
-                        y: e.clientY,
+                        y: e.pageY,
                     },
                     {
-                        width: e.clientX - startX,
-                        height: endY - e.clientY,
+                        width: e.pageX - startX,
+                        height: endY - e.pageY,
                     },
                 );
                 // 触发resize
@@ -132,10 +132,10 @@ export default class {
                 this.box.setSize(
                     {
                         x: startX,
-                        y: e.clientY,
+                        y: e.pageY,
                     },
                     {
-                        height: endY - e.clientY,
+                        height: endY - e.pageY,
                     },
                 );
                 break;

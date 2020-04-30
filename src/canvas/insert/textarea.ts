@@ -96,7 +96,7 @@ export default class SText extends Content {
 
     public getCursor(e: MouseEvent): string {
         let result: string = 'crosshair';
-        if (this.inBoxBorder(e.clientX, e.clientY)) {
+        if (this.inBoxBorder(e.pageX, e.pageY)) {
             result = 'all-scroll';
         }
 

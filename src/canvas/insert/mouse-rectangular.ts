@@ -58,8 +58,8 @@ export default class Mouse {
             case 'nw-resize':
                 this.box.setPosition(
                     {
-                        startX: e.clientX,
-                        startY: e.clientY,
+                        startX: e.pageX,
+                        startY: e.pageY,
                     },
                     true,
                 );
@@ -67,7 +67,7 @@ export default class Mouse {
             case 'w-resize':
                 this.box.setPosition(
                     {
-                        startX: e.clientX,
+                        startX: e.pageX,
                     },
                     true,
                 );
@@ -75,8 +75,8 @@ export default class Mouse {
             case 'sw-resize':
                 this.box.setPosition(
                     {
-                        startX: e.clientX,
-                        endY: e.clientY,
+                        startX: e.pageX,
+                        endY: e.pageY,
                     },
                     true,
                 );
@@ -84,7 +84,7 @@ export default class Mouse {
             case 's-resize':
                 this.box.setPosition(
                     {
-                        endY: e.clientY,
+                        endY: e.pageY,
                     },
                     true,
                 );
@@ -92,8 +92,8 @@ export default class Mouse {
             case 'se-resize':
                 this.box.setPosition(
                     {
-                        endX: e.clientX,
-                        endY: e.clientY,
+                        endX: e.pageX,
+                        endY: e.pageY,
                     },
                     true,
                 );
@@ -101,7 +101,7 @@ export default class Mouse {
             case 'e-resize':
                 this.box.setPosition(
                     {
-                        endX: e.clientX,
+                        endX: e.pageX,
                     },
                     true,
                 );
@@ -110,8 +110,8 @@ export default class Mouse {
             case 'ne-resize':
                 this.box.setPosition(
                     {
-                        startY: e.clientY,
-                        endX: e.clientX,
+                        startY: e.pageY,
+                        endX: e.pageX,
                     },
                     true,
                 );
@@ -120,7 +120,7 @@ export default class Mouse {
             case 'n-resize':
                 this.box.setPosition(
                     {
-                        startY: e.clientY,
+                        startY: e.pageY,
                     },
                     true,
                 );

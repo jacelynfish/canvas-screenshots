@@ -42,6 +42,8 @@ export default class Mouse {
     public mouseMove(e: MouseEvent): void {
         // 翻转后 替换的坐标也要相应的替换
         // move
+        const x: number = e.pageX;
+        const y: number = e.pageY;
         switch (this.mouseEvent) {
             case 'crosshair':
                 break;
@@ -59,8 +61,8 @@ export default class Mouse {
             case 'nw-resize':
                 this.box.setPosition(
                     {
-                        startX: e.clientX,
-                        startY: e.clientY,
+                        startX: x,
+                        startY: y,
                     },
                     true,
                 );
@@ -68,7 +70,7 @@ export default class Mouse {
             case 'w-resize':
                 this.box.setPosition(
                     {
-                        startX: e.clientX,
+                        startX: x,
                     },
                     true,
                 );
@@ -76,8 +78,8 @@ export default class Mouse {
             case 'sw-resize':
                 this.box.setPosition(
                     {
-                        startX: e.clientX,
-                        endY: e.clientY,
+                        startX: x,
+                        endY: y,
                     },
                     true,
                 );
@@ -85,7 +87,7 @@ export default class Mouse {
             case 's-resize':
                 this.box.setPosition(
                     {
-                        endY: e.clientY,
+                        endY: y,
                     },
                     true,
                 );
@@ -93,8 +95,8 @@ export default class Mouse {
             case 'se-resize':
                 this.box.setPosition(
                     {
-                        endX: e.clientX,
-                        endY: e.clientY,
+                        endX: x,
+                        endY: y,
                     },
                     true,
                 );
@@ -102,7 +104,7 @@ export default class Mouse {
             case 'e-resize':
                 this.box.setPosition(
                     {
-                        endX: e.clientX,
+                        endX: x,
                     },
                     true,
                 );
@@ -111,8 +113,8 @@ export default class Mouse {
             case 'ne-resize':
                 this.box.setPosition(
                     {
-                        startY: e.clientY,
-                        endX: e.clientX,
+                        startY: y,
+                        endX: x,
                     },
                     true,
                 );
@@ -121,7 +123,7 @@ export default class Mouse {
             case 'n-resize':
                 this.box.setPosition(
                     {
-                        startY: e.clientY,
+                        startY: y,
                     },
                     true,
                 );

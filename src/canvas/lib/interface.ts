@@ -78,6 +78,7 @@ export interface Config {
     outputType?: Type;
     backgroundData?: ImageData | string; // string 为base64
     customerDefined?: CustomerDefined[];
+    fullSize: Boolean;
 }
 
 export type Type = 'imageData' | 'png' | 'file';
